@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Arcade: Continuous Epoch Dataset Engine</title>
+  <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Press Start 2P', monospace;
+      background-color: #0f111a;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      padding: 20px 10px;
+    }
+    .arcade-box { max-width: 860px; width: 100%; background: #1f2333; }
+    .flash-alert { color: #ff4757; font-weight: bold; min-height: 24px; margin: 8px 0; }
+    .btn-group { display: flex; gap: 10px; justify-content: center; margin: 15px 0; }
+    .badge { font-size: 8px; color: #70a1ff; }
+    
+    .history-table-container {
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 15px;
+      font-size: 8px;
+    }
+    .nes-table.is-dark th, .nes-table.is-dark td {
+      padding: 5px 6px;
+      text-align: center;
+    }
+    .tag-win { color: #2ed573; font-weight: bold; }
+    .tag-loss { color: #ff4757; font-weight: bold; }
+    .tag-draw { color: #ffa502; font-weight: bold; }
+
+    .file-input-wrapper {
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+    }
+    .file-input-wrapper input[type=file] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="arcade-box nes-container is-dark with-title">
+    <p class="title">AI ARCADE: CONTINUOUS DATASET ENGINE</p>
+
+    <!-- Data & Storage Bar -->
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 15px;">
+      <div>
+        <label for="player-select">PROFILE:</label>
+        <div class="nes-select is-inline" style="width: 140px;">
+          <select id="player-select">
+            <option value="Player_1">Player 1</option>
+            <option value="Player_2">Player 2</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 6px;">
+        <button type="button" id="btn-export-json" class="nes-btn is-primary" style="font-size: 8px;">SAVE DATASET</button>
+        
+        <div class="file-input-wrapper">
+          <button type="button" class="nes-btn is-warning" style="font-size: 8px;">LOAD DATASET</button>
+          <input type="file" id="file-import" accept=".json" />
+        </div>
+
+        <button type="button" id="btn-reset" class="nes-btn is-error" style="font-size: 8px;">PURGE</button>
+      </div>
+    </div>
+
+    <!-- HUD Dashboard -->
+    <div class="nes-container is-rounded is-dark" style="margin-bottom: 15px;">
+      <div style="display: flex; justify-content: space-between; font-size: 9px; margin-bottom: 6px;">
+        <span id="epoch-text" style="color: #ffd32a;">EPOCH: 1 (TOTAL PLAYED: 0)</span>
+        <span>PROGRESS: <span id="round-counter" style="color: #0be881;">0</span> / 100</span>
+      </div>
+
+      <p>CURRENT SCORE: YOU <span id="human-score">0</span> - <span id="ai-score">0</span> AI (DRAWS: <span id="draw-score">0</span>)</p>
+      <p>AI ACCURACY: <span id="accuracy-text" style="color: #0be881;">0%</span></p>
+      <progress id="accuracy-bar" class="nes-progress is-success" value="0" max="100"></progress>
+      
+      <div id="alert-box" class="flash-alert"></div>
+      <div id="debug-info" class="badge">ACTIVE SUB-MODEL: NONE | LATENCY: 0ms</div>
+    </div>
+
+    <!-- Buttons -->
+    <div style="text-align: center;">
+      <div class="btn-group">
+        <button type="button" class="nes-btn is-primary btn-move" data-move="rock">✊ ROCK</button>
+        <button type="button" class="nes-btn is-warning btn-move" data-move="paper">✋ PAPER</button>
+        <button type="button" class="nes-btn is-success btn-move" data-move="scissors">✌️ SCISSORS</button>
+      </div>
+    </div>
+
+    <!-- Live Turn-by-Turn Feed -->
+    <div style="margin-top: 15px;">
+      <p style="font-size: 9px; margin-bottom: 5px; color: #a4b0be;">LIVE STREAM FEED (RECENT 10 TURNS):</p>
+      <div class="history-table-container nes-container is-dark">
+        <table class="nes-table is-bordered is-dark is-centered" style="width: 100%;">
+          <thead>
+            <tr>
+              <th>EP-RND</th>
+              <th>HUMAN</th>
+              <th>PREDICTED</th>
+              <th>AI MOVE</th>
+              <th>RESULT</th>
+              <th>ACCURACY</th>
+            </tr>
+          </thead>
+          <tbody id="history-table-body">
+            <tr><td colspan="6" style="color: #747d8c;">NO ROUNDS RECORDED</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // 🧠 CONTINUOUS DATASET & EPOCH ENGINE
+    // =========================================================================
+    class ContinuousEpochEngine {
+      constructor(playerId = "Player_1") {
+        this.moves = ["rock", "paper", "scissors"];
+        this.counterMove = { rock: "paper", paper: "scissors", scissors: "rock" };
+        this.playerId = playerId;
+        this.epochSize = 100;
+        this.lastTimestamp = Date.now();
+
+        this.loadProfile(this.playerId);
+      }
+
+      setPlayer(playerId) {
+        this.saveProfile();
+        this.playerId = playerId;
+        this.loadProfile(playerId);
+      }
+
+      createNewEpoch(epochNum) {
+        return {
+          epochId: epochNum,
+          roundsPlayed: 0,
+          humanWins: 0,
+          aiWins: 0,
+          draws: 0,
+          correctGuesses: 0,
+          finalAccuracy: 0,
+          data: []
+        };
+      }
+
+      getCurrentEpoch() {
+        return this.dataset.epochs[this.dataset.epochs.length - 1];
+      }
+
+      // --- SUB-EXPERTS PREDICTORS ---
+      predictOrder1() {
+        const cur = this.getCurrentEpoch();
+        if (cur.data.length < 1) return null;
+        const lastMove = cur.data[cur.data.length - 1].human;
+        return this.getBest(this.transitions1[lastMove]);
+      }
+
+      predictOrder2() {
+        const cur = this.getCurrentEpoch();
+        if (cur.data.length < 2) return null;
+        const key = `${cur.data[cur.data.length - 2].human}->${cur.data[cur.data.length - 1].human}`;
+        return this.getBest(this.transitions2[key]);
+      }
+
+      predictPsychology() {
+        const cur = this.getCurrentEpoch();
+        if (cur.data.length < 1) return null;
+        const last = cur.data[cur.data.length - 1];
+        return last.outcome === "human_win" ? last.human : this.counterMove[last.ai];
+      }
+
+      predictCounterMeta() {
+        const cur = this.getCurrentEpoch();
+        if (cur.data.length < 1) return null;
+        const last = cur.data[cur.data.length - 1];
+        return this.counterMove[this.counterMove[last.ai]];
+      }
+
+      predictLatency(lat) {
+        const bucket = lat < 800 ? "fast" : "slow";
+        return this.getBest(this.latencyPatterns[bucket]);
+      }
+
+      predictHumanMove(lat) {
+        const votes = { rock: 0, paper: 0, scissors: 0 };
+        const experts = [
+          { name: "markovOrder1", pred: this.predictOrder1() },
+          { name: "markovOrder2", pred: this.predictOrder2() },
+          { name: "psychology", pred: this.predictPsychology() },
+          { name: "counterMeta", pred: this.predictCounterMeta() },
+          { name: "latencyBias", pred: this.predictLatency(lat) }
+        ];
+
+        experts.forEach(exp => {
+          if (exp.pred && votes[exp.pred] !== undefined) {
+            votes[exp.pred] += this.weights[exp.name];
+          }
+        });
+
+        let best = this.moves[Math.floor(Math.random() * 3)];
+        let maxScore = -1;
+        this.moves.forEach(m => {
+          if (votes[m] > maxScore) {
+            maxScore = votes[m];
+            best = m;
+          }
+        });
+        return best;
+      }
+
+      getAIMove() {
+        const latency = Date.now() - this.lastTimestamp;
+        const predictedHumanMove = this.predictHumanMove(latency);
+        return {
+          aiMove: this.counterMove[predictedHumanMove],
+          predictedHumanMove: predictedHumanMove,
+          latency: latency
+        };
+      }
+
+      recordRound(humanMove, aiMove, predictedHumanMove) {
+        let currentEpoch = this.getCurrentEpoch();
+
+        // เมื่อครบ 100 ตา ให้ปิดยอด Epoch ปัจจุบัน แล้วต่อ Epoch ใหม่ทันที
+        if (currentEpoch.roundsPlayed >= this.epochSize) {
+          currentEpoch.finalAccuracy = Math.round((currentEpoch.correctGuesses / currentEpoch.roundsPlayed) * 100);
+          const nextEpoch = this.createNewEpoch(this.dataset.epochs.length + 1);
+          this.dataset.epochs.push(nextEpoch);
+          currentEpoch = nextEpoch;
+        }
+
+        const latency = Date.now() - this.lastTimestamp;
+        const outcome = this.evaluateOutcome(humanMove, aiMove);
+        currentEpoch.roundsPlayed++;
+        this.dataset.cumulativeTotalRounds++;
+
+        if (outcome === "human_win") currentEpoch.humanWins++;
+        if (outcome === "ai_win") currentEpoch.aiWins++;
+        if (outcome === "draw") currentEpoch.draws++;
+
+        const isPredicted = (predictedHumanMove === humanMove);
+        if (isPredicted) {
+          currentEpoch.correctGuesses++;
+          this.dataset.cumulativeCorrectGuesses++;
+        }
+
+        // ปรับจูน Weight สด
+        const preds = {
+          markovOrder1: this.predictOrder1(),
+          markovOrder2: this.predictOrder2(),
+          psychology: this.predictPsychology(),
+          counterMeta: this.predictCounterMeta(),
+          latencyBias: this.predictLatency(latency)
+        };
+        for (const k in preds) {
+          if (preds[k] === humanMove) this.weights[k] += 0.15;
+          else this.weights[k] = Math.max(0.1, this.weights[k] - 0.04);
+        }
+
+        // เก็บ Transitions สะสมข้าม Epochs
+        if (currentEpoch.data.length >= 1) {
+          const l1 = currentEpoch.data[currentEpoch.data.length - 1].human;
+          this.transitions1[l1] = this.transitions1[l1] || { rock: 0, paper: 0, scissors: 0 };
+          this.transitions1[l1][humanMove]++;
+        }
+        if (currentEpoch.data.length >= 2) {
+          const lKey = `${currentEpoch.data[currentEpoch.data.length - 2].human}->${currentEpoch.data[currentEpoch.data.length - 1].human}`;
+          this.transitions2[lKey] = this.transitions2[lKey] || { rock: 0, paper: 0, scissors: 0 };
+          this.transitions2[lKey][humanMove]++;
+        }
+        const bucket = latency < 800 ? "fast" : "slow";
+        this.latencyPatterns[bucket][humanMove] = (this.latencyPatterns[bucket][humanMove] || 0) + 1;
+
+        const currentAcc = Math.round((currentEpoch.correctGuesses / currentEpoch.roundsPlayed) * 100);
+
+        const record = {
+          globalRound: this.dataset.cumulativeTotalRounds,
+          epochRound: currentEpoch.roundsPlayed,
+          human: humanMove,
+          predicted: predictedHumanMove,
+          ai: aiMove,
+          outcome: outcome,
+          isPredicted: isPredicted,
+          latency: latency,
+          epochAccuracy: currentAcc
+        };
+
+        currentEpoch.data.push(record);
+        this.lastTimestamp = Date.now();
+        this.saveProfile();
+
+        return {
+          record,
+          epochIndex: currentEpoch.epochId,
+          roundsInEpoch: currentEpoch.roundsPlayed,
+          humanWins: currentEpoch.humanWins,
+          aiWins: currentEpoch.aiWins,
+          draws: currentEpoch.draws,
+          accuracy: currentAcc,
+          dominantExpert: this.getDominantExpert()
+        };
+      }
+
+      getDominantExpert() {
+        let top = "", max = -1;
+        for (const k in this.weights) {
+          if (this.weights[k] > max) { max = this.weights[k]; top = k; }
+        }
+        return top;
+      }
+
+      getBest(dict) {
+        if (!dict) return null;
+        let b = null, m = -1;
+        this.moves.forEach(move => {
+          if (dict[move] > m) { m = dict[move]; b = move; }
+        });
+        return m > 0 ? b : null;
+      }
+
+      evaluateOutcome(h, a) {
+        if (h === a) return "draw";
+        if (this.counterMove[h] === a) return "ai_win";
+        return "human_win";
+      }
+
+      saveProfile() {
+        const payload = {
+          dataset: this.dataset,
+          transitions1: this.transitions1,
+          transitions2: this.transitions2,
+          latencyPatterns: this.latencyPatterns,
+          weights: this.weights
+        };
+        localStorage.setItem(`ai_arcade_dataset_${this.playerId}`, JSON.stringify(payload));
+      }
+
+      loadProfile(id) {
+        const raw = localStorage.getItem(`ai_arcade_dataset_${id}`);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          this.dataset = parsed.dataset || this.initDatasetTemplate();
+          this.transitions1 = parsed.transitions1 || {};
+          this.transitions2 = parsed.transitions2 || {};
+          this.latencyPatterns = parsed.latencyPatterns || { fast: {}, slow: {} };
+          this.weights = parsed.weights || this.initWeights();
+        } else {
+          this.resetMemory();
+        }
+        this.lastTimestamp = Date.now();
+      }
+
+      initDatasetTemplate() {
+        return {
+          cumulativeTotalRounds: 0,
+          cumulativeCorrectGuesses: 0,
+          epochs: [this.createNewEpoch(1)]
+        };
+      }
+
+      initWeights() {
+        return { markovOrder1: 1.0, markovOrder2: 1.5, psychology: 1.2, counterMeta: 0.8, latencyBias: 1.0 };
+      }
+
+      resetMemory() {
+        this.dataset = this.initDatasetTemplate();
+        this.transitions1 = {};
+        this.transitions2 = {};
+        this.latencyPatterns = { fast: {}, slow: {} };
+        this.weights = this.initWeights();
+        this.lastTimestamp = Date.now();
+        localStorage.removeItem(`ai_arcade_dataset_${this.playerId}`);
+      }
+
+      // โหลดชุดข้อมูลจากไฟล์ JSON ภายนอกมาเรียนรู้ต่อ
+      importDataset(jsonString) {
+        const parsed = JSON.parse(jsonString);
+        if (!parsed.dataset || !parsed.transitions1) throw new Error("Invalid Dataset Format");
+        this.dataset = parsed.dataset;
+        this.transitions1 = parsed.transitions1;
+        this.transitions2 = parsed.transitions2;
+        this.latencyPatterns = parsed.latencyPatterns;
+        this.weights = parsed.weights;
+        this.saveProfile();
+      }
+
+      // Export เป็น JSON ทั้งก้อนเพื่อเอาไปเก็บใน Folder โปรเจกต์
+      exportDatasetJSON() {
+        return JSON.stringify({
+          dataset: this.dataset,
+          transitions1: this.transitions1,
+          transitions2: this.transitions2,
+          latencyPatterns: this.latencyPatterns,
+          weights: this.weights
+        }, null, 2);
+      }
+    }
+
+    // =========================================================================
+    // 🎮 UI CONTROLLER
+    // =========================================================================
+    let engine = new ContinuousEpochEngine("Player_1");
+
+    function refreshUI() {
+      const cur = engine.getCurrentEpoch();
+      const acc = cur.roundsPlayed === 0 ? 0 : Math.round((cur.correctGuesses / cur.roundsPlayed) * 100);
+
+      document.getElementById('epoch-text').innerText = `EPOCH: ${cur.epochId} (TOTAL PLAYED: ${engine.dataset.cumulativeTotalRounds})`;
+      document.getElementById('round-counter').innerText = cur.roundsPlayed;
+      document.getElementById('human-score').innerText = cur.humanWins;
+      document.getElementById('ai-score').innerText = cur.aiWins;
+      document.getElementById('draw-score').innerText = cur.draws;
+      document.getElementById('accuracy-text').innerText = `${acc}%`;
+      document.getElementById('accuracy-bar').value = acc;
+
+      renderFeedTable(cur.data, cur.epochId);
+    }
+
+    function renderFeedTable(data, epochId) {
+      const tbody = document.getElementById('history-table-body');
+      if (data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="color: #747d8c;">NO ROUNDS RECORDED</td></tr>`;
+        return;
+      }
+
+      const recent = [...data].reverse().slice(0, 10);
+      tbody.innerHTML = recent.map(r => {
+        let tag = "tag-draw", txt = "DRAW";
+        if (r.outcome === "human_win") { tag = "tag-win"; txt = "WIN"; }
+        if (r.outcome === "ai_win") { tag = "tag-loss"; txt = "LOSE"; }
+
+        return `
+          <tr>
+            <td>E${epochId}-#${r.epochRound}</td>
+            <td>${r.human.toUpperCase()}</td>
+            <td style="color: ${r.isPredicted ? '#0be881' : '#a4b0be'};">${r.predicted.toUpperCase()}</td>
+            <td>${r.ai.toUpperCase()}</td>
+            <td class="${tag}">${txt}</td>
+            <td>${r.epochAccuracy}%</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // ปุ่มกดค้อน-กรรไกร-กระดาษ
+    document.querySelectorAll('.btn-move').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const choice = e.target.getAttribute('data-move');
+        const { aiMove, predictedHumanMove } = engine.getAIMove();
+        const res = engine.recordRound(choice, aiMove, predictedHumanMove);
+
+        if (res.roundsInEpoch === 100) {
+          alert(`🏁 EPOCH #${res.epochIndex} COMPLETED!\nAI Accuracy in this Epoch: ${res.accuracy}%\nAdvancing to Epoch #${res.epochIndex + 1} with learned weights...`);
+        }
+
+        refreshUI();
+
+        const alertBox = document.getElementById('alert-box');
+        alertBox.innerText = res.record.isPredicted ? `[READ! PREDICTED: ${predictedHumanMove.toUpperCase()}]` : "";
+        document.getElementById('debug-info').innerText = `ACTIVE SUB-MODEL: ${res.dominantExpert.toUpperCase()} | LATENCY: ${res.record.latency}ms`;
+      });
+    });
+
+    // สลับโปรไฟล์
+    document.getElementById('player-select').addEventListener('change', (e) => {
+      engine.setPlayer(e.target.value);
+      refreshUI();
+      document.getElementById('alert-box').innerText = `LOADED: ${e.target.value}`;
+    });
+
+    // ปุ่ม Reset
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      if (confirm("Purge memory and all dataset epochs?")) {
+        engine.resetMemory();
+        refreshUI();
+        document.getElementById('alert-box').innerText = "DATASET PURGED!";
+      }
+    });
+
+    // บันทึก Dataset เป็น JSON เข้าโฟลเดอร์เครื่อง
+    document.getElementById('btn-export-json').addEventListener('click', () => {
+      const dataStr = engine.exportDatasetJSON();
+      const blob = new Blob([dataStr], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `dataset_${engine.playerId}_cumulative.json`;
+      a.click();
+    });
+
+    // โหลด Dataset จากโฟลเดอร์เครื่องเข้ามาเทรนต่อ
+    document.getElementById('file-import').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          engine.importDataset(event.target.result);
+          refreshUI();
+          alert("Dataset successfully loaded! AI resumed training from file.");
+        } catch (err) {
+          alert("Error loading dataset file!");
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    refreshUI();
+  </script>
+</body>
+</html>
