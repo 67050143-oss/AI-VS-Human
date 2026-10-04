@@ -1,0 +1,1201 @@
+{
+  "dataset": {
+    "cumulativeTotalRounds": 100,
+    "cumulativeCorrectGuesses": 60,
+    "epochs": [
+      {
+        "epochId": 1,
+        "roundsPlayed": 100,
+        "humanWins": 18,
+        "aiWins": 60,
+        "draws": 22,
+        "correctGuesses": 60,
+        "finalAccuracy": 0,
+        "data": [
+          {
+            "globalRound": 1,
+            "epochRound": 1,
+            "human": "scissors",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "human_win",
+            "isPredicted": false,
+            "latency": 1020,
+            "epochAccuracy": 0
+          },
+          {
+            "globalRound": 2,
+            "epochRound": 2,
+            "human": "rock",
+            "predicted": "scissors",
+            "ai": "rock",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 430,
+            "epochAccuracy": 0
+          },
+          {
+            "globalRound": 3,
+            "epochRound": 3,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 246,
+            "epochAccuracy": 33
+          },
+          {
+            "globalRound": 4,
+            "epochRound": 4,
+            "human": "rock",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 218,
+            "epochAccuracy": 50
+          },
+          {
+            "globalRound": 5,
+            "epochRound": 5,
+            "human": "paper",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 179,
+            "epochAccuracy": 40
+          },
+          {
+            "globalRound": 6,
+            "epochRound": 6,
+            "human": "rock",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 202,
+            "epochAccuracy": 50
+          },
+          {
+            "globalRound": 7,
+            "epochRound": 7,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 196,
+            "epochAccuracy": 57
+          },
+          {
+            "globalRound": 8,
+            "epochRound": 8,
+            "human": "scissors",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "human_win",
+            "isPredicted": false,
+            "latency": 826,
+            "epochAccuracy": 50
+          },
+          {
+            "globalRound": 9,
+            "epochRound": 9,
+            "human": "paper",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 302,
+            "epochAccuracy": 44
+          },
+          {
+            "globalRound": 10,
+            "epochRound": 10,
+            "human": "rock",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 217,
+            "epochAccuracy": 50
+          },
+          {
+            "globalRound": 11,
+            "epochRound": 11,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 282,
+            "epochAccuracy": 55
+          },
+          {
+            "globalRound": 12,
+            "epochRound": 12,
+            "human": "rock",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 256,
+            "epochAccuracy": 58
+          },
+          {
+            "globalRound": 13,
+            "epochRound": 13,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 207,
+            "epochAccuracy": 62
+          },
+          {
+            "globalRound": 14,
+            "epochRound": 14,
+            "human": "rock",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 241,
+            "epochAccuracy": 64
+          },
+          {
+            "globalRound": 15,
+            "epochRound": 15,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 242,
+            "epochAccuracy": 67
+          },
+          {
+            "globalRound": 16,
+            "epochRound": 16,
+            "human": "paper",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 1183,
+            "epochAccuracy": 63
+          },
+          {
+            "globalRound": 17,
+            "epochRound": 17,
+            "human": "scissors",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "human_win",
+            "isPredicted": false,
+            "latency": 312,
+            "epochAccuracy": 59
+          },
+          {
+            "globalRound": 18,
+            "epochRound": 18,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 209,
+            "epochAccuracy": 61
+          },
+          {
+            "globalRound": 19,
+            "epochRound": 19,
+            "human": "rock",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 228,
+            "epochAccuracy": 63
+          },
+          {
+            "globalRound": 20,
+            "epochRound": 20,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 246,
+            "epochAccuracy": 65
+          },
+          {
+            "globalRound": 21,
+            "epochRound": 21,
+            "human": "rock",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 268,
+            "epochAccuracy": 67
+          },
+          {
+            "globalRound": 22,
+            "epochRound": 22,
+            "human": "scissors",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 446,
+            "epochAccuracy": 64
+          },
+          {
+            "globalRound": 23,
+            "epochRound": 23,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 233,
+            "epochAccuracy": 65
+          },
+          {
+            "globalRound": 24,
+            "epochRound": 24,
+            "human": "rock",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 285,
+            "epochAccuracy": 67
+          },
+          {
+            "globalRound": 25,
+            "epochRound": 25,
+            "human": "rock",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "human_win",
+            "isPredicted": false,
+            "latency": 253,
+            "epochAccuracy": 64
+          },
+          {
+            "globalRound": 26,
+            "epochRound": 26,
+            "human": "scissors",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 444,
+            "epochAccuracy": 62
+          },
+          {
+            "globalRound": 27,
+            "epochRound": 27,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 233,
+            "epochAccuracy": 63
+          },
+          {
+            "globalRound": 28,
+            "epochRound": 28,
+            "human": "rock",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 275,
+            "epochAccuracy": 64
+          },
+          {
+            "globalRound": 29,
+            "epochRound": 29,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 227,
+            "epochAccuracy": 66
+          },
+          {
+            "globalRound": 30,
+            "epochRound": 30,
+            "human": "scissors",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "human_win",
+            "isPredicted": false,
+            "latency": 279,
+            "epochAccuracy": 63
+          },
+          {
+            "globalRound": 31,
+            "epochRound": 31,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 234,
+            "epochAccuracy": 65
+          },
+          {
+            "globalRound": 32,
+            "epochRound": 32,
+            "human": "rock",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 250,
+            "epochAccuracy": 66
+          },
+          {
+            "globalRound": 33,
+            "epochRound": 33,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 239,
+            "epochAccuracy": 67
+          },
+          {
+            "globalRound": 34,
+            "epochRound": 34,
+            "human": "scissors",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "human_win",
+            "isPredicted": false,
+            "latency": 265,
+            "epochAccuracy": 65
+          },
+          {
+            "globalRound": 35,
+            "epochRound": 35,
+            "human": "scissors",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 190,
+            "epochAccuracy": 63
+          },
+          {
+            "globalRound": 36,
+            "epochRound": 36,
+            "human": "scissors",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 155,
+            "epochAccuracy": 61
+          },
+          {
+            "globalRound": 37,
+            "epochRound": 37,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 229,
+            "epochAccuracy": 62
+          },
+          {
+            "globalRound": 38,
+            "epochRound": 38,
+            "human": "paper",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 482,
+            "epochAccuracy": 61
+          },
+          {
+            "globalRound": 39,
+            "epochRound": 39,
+            "human": "rock",
+            "predicted": "scissors",
+            "ai": "rock",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 218,
+            "epochAccuracy": 59
+          },
+          {
+            "globalRound": 40,
+            "epochRound": 40,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 206,
+            "epochAccuracy": 60
+          },
+          {
+            "globalRound": 41,
+            "epochRound": 41,
+            "human": "rock",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 254,
+            "epochAccuracy": 61
+          },
+          {
+            "globalRound": 42,
+            "epochRound": 42,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 210,
+            "epochAccuracy": 62
+          },
+          {
+            "globalRound": 43,
+            "epochRound": 43,
+            "human": "paper",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 623,
+            "epochAccuracy": 60
+          },
+          {
+            "globalRound": 44,
+            "epochRound": 44,
+            "human": "scissors",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "human_win",
+            "isPredicted": false,
+            "latency": 213,
+            "epochAccuracy": 59
+          },
+          {
+            "globalRound": 45,
+            "epochRound": 45,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 241,
+            "epochAccuracy": 60
+          },
+          {
+            "globalRound": 46,
+            "epochRound": 46,
+            "human": "scissors",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "human_win",
+            "isPredicted": false,
+            "latency": 224,
+            "epochAccuracy": 59
+          },
+          {
+            "globalRound": 47,
+            "epochRound": 47,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 198,
+            "epochAccuracy": 60
+          },
+          {
+            "globalRound": 48,
+            "epochRound": 48,
+            "human": "paper",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 163,
+            "epochAccuracy": 58
+          },
+          {
+            "globalRound": 49,
+            "epochRound": 49,
+            "human": "paper",
+            "predicted": "scissors",
+            "ai": "rock",
+            "outcome": "human_win",
+            "isPredicted": false,
+            "latency": 171,
+            "epochAccuracy": 57
+          },
+          {
+            "globalRound": 50,
+            "epochRound": 50,
+            "human": "scissors",
+            "predicted": "scissors",
+            "ai": "rock",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 240,
+            "epochAccuracy": 58
+          },
+          {
+            "globalRound": 51,
+            "epochRound": 51,
+            "human": "scissors",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 163,
+            "epochAccuracy": 57
+          },
+          {
+            "globalRound": 52,
+            "epochRound": 52,
+            "human": "scissors",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 171,
+            "epochAccuracy": 56
+          },
+          {
+            "globalRound": 53,
+            "epochRound": 53,
+            "human": "scissors",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 153,
+            "epochAccuracy": 55
+          },
+          {
+            "globalRound": 54,
+            "epochRound": 54,
+            "human": "scissors",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 150,
+            "epochAccuracy": 54
+          },
+          {
+            "globalRound": 55,
+            "epochRound": 55,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 223,
+            "epochAccuracy": 55
+          },
+          {
+            "globalRound": 56,
+            "epochRound": 56,
+            "human": "scissors",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "human_win",
+            "isPredicted": false,
+            "latency": 198,
+            "epochAccuracy": 54
+          },
+          {
+            "globalRound": 57,
+            "epochRound": 57,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 178,
+            "epochAccuracy": 54
+          },
+          {
+            "globalRound": 58,
+            "epochRound": 58,
+            "human": "scissors",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "human_win",
+            "isPredicted": false,
+            "latency": 207,
+            "epochAccuracy": 53
+          },
+          {
+            "globalRound": 59,
+            "epochRound": 59,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 188,
+            "epochAccuracy": 54
+          },
+          {
+            "globalRound": 60,
+            "epochRound": 60,
+            "human": "rock",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 224,
+            "epochAccuracy": 55
+          },
+          {
+            "globalRound": 61,
+            "epochRound": 61,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 252,
+            "epochAccuracy": 56
+          },
+          {
+            "globalRound": 62,
+            "epochRound": 62,
+            "human": "rock",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 237,
+            "epochAccuracy": 56
+          },
+          {
+            "globalRound": 63,
+            "epochRound": 63,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 205,
+            "epochAccuracy": 57
+          },
+          {
+            "globalRound": 64,
+            "epochRound": 64,
+            "human": "rock",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 201,
+            "epochAccuracy": 58
+          },
+          {
+            "globalRound": 65,
+            "epochRound": 65,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 208,
+            "epochAccuracy": 58
+          },
+          {
+            "globalRound": 66,
+            "epochRound": 66,
+            "human": "rock",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 194,
+            "epochAccuracy": 59
+          },
+          {
+            "globalRound": 67,
+            "epochRound": 67,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 208,
+            "epochAccuracy": 60
+          },
+          {
+            "globalRound": 68,
+            "epochRound": 68,
+            "human": "scissors",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "human_win",
+            "isPredicted": false,
+            "latency": 220,
+            "epochAccuracy": 59
+          },
+          {
+            "globalRound": 69,
+            "epochRound": 69,
+            "human": "scissors",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 156,
+            "epochAccuracy": 58
+          },
+          {
+            "globalRound": 70,
+            "epochRound": 70,
+            "human": "scissors",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 138,
+            "epochAccuracy": 57
+          },
+          {
+            "globalRound": 71,
+            "epochRound": 71,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 192,
+            "epochAccuracy": 58
+          },
+          {
+            "globalRound": 72,
+            "epochRound": 72,
+            "human": "scissors",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "human_win",
+            "isPredicted": false,
+            "latency": 195,
+            "epochAccuracy": 57
+          },
+          {
+            "globalRound": 73,
+            "epochRound": 73,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 191,
+            "epochAccuracy": 58
+          },
+          {
+            "globalRound": 74,
+            "epochRound": 74,
+            "human": "scissors",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "human_win",
+            "isPredicted": false,
+            "latency": 162,
+            "epochAccuracy": 57
+          },
+          {
+            "globalRound": 75,
+            "epochRound": 75,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 179,
+            "epochAccuracy": 57
+          },
+          {
+            "globalRound": 76,
+            "epochRound": 76,
+            "human": "scissors",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "human_win",
+            "isPredicted": false,
+            "latency": 186,
+            "epochAccuracy": 57
+          },
+          {
+            "globalRound": 77,
+            "epochRound": 77,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 351,
+            "epochAccuracy": 57
+          },
+          {
+            "globalRound": 78,
+            "epochRound": 78,
+            "human": "paper",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 162,
+            "epochAccuracy": 56
+          },
+          {
+            "globalRound": 79,
+            "epochRound": 79,
+            "human": "scissors",
+            "predicted": "scissors",
+            "ai": "rock",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 231,
+            "epochAccuracy": 57
+          },
+          {
+            "globalRound": 80,
+            "epochRound": 80,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 199,
+            "epochAccuracy": 57
+          },
+          {
+            "globalRound": 81,
+            "epochRound": 81,
+            "human": "rock",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 219,
+            "epochAccuracy": 58
+          },
+          {
+            "globalRound": 82,
+            "epochRound": 82,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 211,
+            "epochAccuracy": 59
+          },
+          {
+            "globalRound": 83,
+            "epochRound": 83,
+            "human": "paper",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 151,
+            "epochAccuracy": 58
+          },
+          {
+            "globalRound": 84,
+            "epochRound": 84,
+            "human": "rock",
+            "predicted": "scissors",
+            "ai": "rock",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 222,
+            "epochAccuracy": 57
+          },
+          {
+            "globalRound": 85,
+            "epochRound": 85,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 204,
+            "epochAccuracy": 58
+          },
+          {
+            "globalRound": 86,
+            "epochRound": 86,
+            "human": "rock",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 190,
+            "epochAccuracy": 58
+          },
+          {
+            "globalRound": 87,
+            "epochRound": 87,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 206,
+            "epochAccuracy": 59
+          },
+          {
+            "globalRound": 88,
+            "epochRound": 88,
+            "human": "scissors",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "human_win",
+            "isPredicted": false,
+            "latency": 409,
+            "epochAccuracy": 58
+          },
+          {
+            "globalRound": 89,
+            "epochRound": 89,
+            "human": "scissors",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "draw",
+            "isPredicted": false,
+            "latency": 161,
+            "epochAccuracy": 57
+          },
+          {
+            "globalRound": 90,
+            "epochRound": 90,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 249,
+            "epochAccuracy": 58
+          },
+          {
+            "globalRound": 91,
+            "epochRound": 91,
+            "human": "rock",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 258,
+            "epochAccuracy": 58
+          },
+          {
+            "globalRound": 92,
+            "epochRound": 92,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 234,
+            "epochAccuracy": 59
+          },
+          {
+            "globalRound": 93,
+            "epochRound": 93,
+            "human": "scissors",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "human_win",
+            "isPredicted": false,
+            "latency": 218,
+            "epochAccuracy": 58
+          },
+          {
+            "globalRound": 94,
+            "epochRound": 94,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 226,
+            "epochAccuracy": 59
+          },
+          {
+            "globalRound": 95,
+            "epochRound": 95,
+            "human": "rock",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 637,
+            "epochAccuracy": 59
+          },
+          {
+            "globalRound": 96,
+            "epochRound": 96,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 214,
+            "epochAccuracy": 59
+          },
+          {
+            "globalRound": 97,
+            "epochRound": 97,
+            "human": "scissors",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "human_win",
+            "isPredicted": false,
+            "latency": 450,
+            "epochAccuracy": 59
+          },
+          {
+            "globalRound": 98,
+            "epochRound": 98,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 251,
+            "epochAccuracy": 59
+          },
+          {
+            "globalRound": 99,
+            "epochRound": 99,
+            "human": "rock",
+            "predicted": "rock",
+            "ai": "paper",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 270,
+            "epochAccuracy": 60
+          },
+          {
+            "globalRound": 100,
+            "epochRound": 100,
+            "human": "paper",
+            "predicted": "paper",
+            "ai": "scissors",
+            "outcome": "ai_win",
+            "isPredicted": true,
+            "latency": 243,
+            "epochAccuracy": 60
+          }
+        ]
+      }
+    ]
+  },
+  "transitions1": {
+    "scissors": {
+      "rock": 1,
+      "paper": 19,
+      "scissors": 9
+    },
+    "rock": {
+      "rock": 1,
+      "paper": 21,
+      "scissors": 2
+    },
+    "paper": {
+      "rock": 22,
+      "paper": 7,
+      "scissors": 17
+    }
+  },
+  "transitions2": {
+    "scissors->rock": {
+      "rock": 0,
+      "paper": 1,
+      "scissors": 0
+    },
+    "rock->paper": {
+      "rock": 10,
+      "paper": 3,
+      "scissors": 7
+    },
+    "paper->rock": {
+      "rock": 1,
+      "paper": 20,
+      "scissors": 1
+    },
+    "paper->scissors": {
+      "rock": 0,
+      "paper": 13,
+      "scissors": 4
+    },
+    "scissors->paper": {
+      "rock": 10,
+      "paper": 3,
+      "scissors": 6
+    },
+    "paper->paper": {
+      "rock": 2,
+      "paper": 1,
+      "scissors": 4
+    },
+    "rock->scissors": {
+      "rock": 0,
+      "paper": 2,
+      "scissors": 0
+    },
+    "rock->rock": {
+      "rock": 0,
+      "paper": 0,
+      "scissors": 1
+    },
+    "scissors->scissors": {
+      "rock": 0,
+      "paper": 4,
+      "scissors": 5
+    }
+  },
+  "latencyPatterns": {
+    "fast": {
+      "rock": 24,
+      "paper": 46,
+      "scissors": 27
+    },
+    "slow": {
+      "scissors": 2,
+      "paper": 1
+    }
+  },
+  "weights": {
+    "markovOrder1": 8.020000000000008,
+    "markovOrder2": 7.950000000000007,
+    "psychology": 2.709999999999995,
+    "counterMeta": 0.5999999999999969,
+    "latencyBias": 4.599999999999997
+  }
+}

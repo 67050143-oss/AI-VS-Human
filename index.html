@@ -1,43 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>AI Arcade: Continuous Epoch Dataset Engine</title>
+  <title>AI Arcade: Multi-Dataset Duel & Training Engine</title>
   <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Press Start 2P', monospace;
-      background-color: #0f111a;
-      color: #fff;
+      background-image: url("background.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: #263238;
       display: flex;
       justify-content: center;
       padding: 20px 10px;
     }
-    .arcade-box { max-width: 860px; width: 100%; background: #1f2333; }
-    .flash-alert { color: #ff4757; font-weight: bold; min-height: 24px; margin: 8px 0; }
-    .btn-group { display: flex; gap: 10px; justify-content: center; margin: 15px 0; }
-    .badge { font-size: 8px; color: #70a1ff; }
-    
+
+    .arcade-box {
+      max-width: 860px;
+      width: 100%;
+      background: #bfe8f5 !important;
+      color: #263238;
+    }
+
+    .arcade-box .is-dark {
+      background-color: #fff1b8 !important;
+      color: #263238 !important;
+    }
+
+    .arcade-box .nes-container {
+      background-color: #fff1b8 !important;
+      color: #263238;
+      border-color: #000000 !important;
+    }
+
+    .arcade-box .nes-container::before,
+    .arcade-box .nes-container::after {
+      border-color: #000000 !important;
+    }
+
+    .arcade-box.nes-container.is-dark {
+      background-color: #bfe8f5 !important;
+      color: #263238 !important;
+    }
+
+    .mode-select-box {
+      background: #fff1b8;
+      border: 3px solid #000000;
+      padding: 10px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
     .history-table-container {
       max-height: 200px;
       overflow-y: auto;
       margin-top: 15px;
       font-size: 8px;
+      background-color: #fff1b8 !important;
+      color: #263238;
     }
-    .nes-table.is-dark th, .nes-table.is-dark td {
+
+    .nes-table.is-dark th,
+    .nes-table.is-dark td {
       padding: 5px 6px;
       text-align: center;
+      background-color: #fff1b8 !important;
+      color: #263238 !important;
     }
+
+    .flash-alert {
+      color: #ff4757;
+      font-weight: bold;
+      min-height: 24px;
+      margin: 8px 0;
+    }
+
+    .badge {
+      font-size: 8px;
+      color: #2f3542;
+    }
+
     .tag-win { color: #2ed573; font-weight: bold; }
     .tag-loss { color: #ff4757; font-weight: bold; }
     .tag-draw { color: #ffa502; font-weight: bold; }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin: 15px 0;
+    }
 
     .file-input-wrapper {
       display: inline-block;
       position: relative;
       overflow: hidden;
     }
+
     .file-input-wrapper input[type=file] {
       position: absolute;
       left: 0;
@@ -45,19 +113,252 @@
       opacity: 0;
       cursor: pointer;
     }
+
+    /* START SCREEN */
+    .start-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+      background-image: url("background.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: 9999;
+    }
+
+    .start-content {
+      width: 100%;
+      max-width: 700px;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .start-title {
+      font-size: 115px;
+      color: #ff4757;
+      margin-bottom: 30px;
+      text-shadow:
+        3px 3px 0 #8b0000,
+        5px 5px 0 #8b0000,
+        7px 7px 0 #5c0000;
+      transform: translateY(-100px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .start-title span:first-child {
+      margin-right: 35px;
+    }
+
+    .start-subtitle {
+      font-size: 25px;
+      color: #ffffff;
+      margin-bottom: 20px;
+      text-shadow:
+        -2px -2px 0 #000000,
+        2px -2px 0 #000000,
+        -2px 2px 0 #000000,
+        2px 2px 0 #000000;
+      letter-spacing: 2px;
+      transform: translateY(-95px);
+    }
+
+    .start-description {
+      font-size: 16px;
+      line-height: 2;
+      color: #000000;
+      margin-bottom: 30px;
+      transform: translateY(-95px);
+    }
+
+    .start-button {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 50px;
+      color: #ffd32a;
+      background: transparent;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      text-shadow:
+        4px 4px 0 #000000,
+        6px 6px 0 #000000,
+        -2px -2px 0 #000000,
+        2px -2px 0 #000000,
+        -2px 2px 0 #000000;
+      transition: transform 0.1s;
+      transform: translateY(-105px);
+    }
+
+    .start-button:hover {
+      background: transparent;
+      transform: translateY(-102px);
+    }
+
+    .flying-bird {
+      position: absolute;
+      width: 100px;
+      height: auto;
+      z-index: 1;
+      top: 20%;
+      left: -120px;
+      animation: bird-fly 12s linear infinite;
+    }
+
+    @keyframes bird-fly {
+      0% { left: -120px; top: 20%; }
+      15% { left: 15%; top: 10%; }
+      30% { left: 30%; top: 22%; }
+      45% { left: 45%; top: 8%; }
+      60% { left: 60%; top: 21%; }
+      75% { left: 75%; top: 9%; }
+      90% { left: 90%; top: 20%; }
+      100% { left: 100%; top: 12%; }
+    }
+
+    /* LOADING SCREEN */
+    .loading-screen {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+      background-image: url("background.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: 9998;
+    }
+
+    .loading-content {
+      width: 100%;
+      max-width: 700px;
+      padding: 40px 20px;
+    }
+
+    .loading-text {
+      font-size: 30px;
+      color: #ffffff;
+      margin-bottom: 20px;
+      text-shadow:
+        -2px -2px 0 #000000,
+        2px -2px 0 #000000,
+        -2px 2px 0 #000000,
+        2px 2px 0 #000000,
+        4px 4px 0 #000000;
+    }
+
+    .loading-bar {
+      width: 70%;
+      max-width: 500px;
+      height: 30px;
+      margin: 20px auto 15px;
+      border: 4px solid #1f2333;
+      background-color: #64748b;
+      box-sizing: border-box;
+      padding: 2px;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .loading-bar-fill {
+      width: 0%;
+      height: 100%;
+      background-color: #ffd32a;
+      transition: width 0.02s linear;
+      border-radius: 10px;
+    }
   </style>
 </head>
+
 <body>
+  <!-- START SCREEN -->
+  <div class="start-screen">
+    <img src="bird.png" class="flying-bird" alt="">
+    <div class="start-content">
+      <div class="start-title">
+        <span>AI</span><span>ARCADE</span>
+      </div>
+      <div class="start-subtitle">
+        HUMAN VS AI
+      </div>
+      <div class="start-description">
+        CAN YOU OUTSMART AN AI<br>
+        THAT LEARNS YOU?
+      </div>
+      <button class="start-button" type="button">
+        START GAME
+      </button>
+    </div>
+  </div>
 
+  <!-- LOADING SCREEN -->
+  <div class="loading-screen">
+    <div class="loading-content">
+      <div class="loading-text">
+        LOADING...
+      </div>
+      <div class="loading-bar">
+        <div class="loading-bar-fill"></div>
+      </div>
+      <div class="loading-percent" style="color: #fff; text-shadow: 2px 2px #000;">
+        0%
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN ARCADE -->
   <div class="arcade-box nes-container is-dark with-title">
-    <p class="title">AI ARCADE: CONTINUOUS DATASET ENGINE</p>
+    <p class="title">AI ARCADE: MULTI-DATASET ENGINE</p>
 
-    <!-- Data & Storage Bar -->
+    <!-- สลับโหมด Duel / Train และ Pre-trained / Cold Scratch -->
+    <div class="mode-select-box">
+      <div>
+        <span style="font-size: 8px; color: #d65a7a;">GAME MODE:</span>
+        <label>
+          <input type="radio" class="nes-radio" name="game-mode" value="duel" checked />
+          <span style="font-size: 8px;">BOSS DUEL (FIRST TO 5)</span>
+        </label>
+        <label>
+          <input type="radio" class="nes-radio" name="game-mode" value="train" />
+          <span style="font-size: 8px;">TRAINING (100 RNDS)</span>
+        </label>
+      </div>
+
+      <div>
+        <span style="font-size: 8px; color: #0984e3;">MODEL STATE:</span>
+        <label>
+          <input type="radio" class="nes-radio" name="model-state" value="pretrained" checked />
+          <span style="font-size: 8px;">PRE-TRAINED</span>
+        </label>
+        <label>
+          <input type="radio" class="nes-radio" name="model-state" value="scratch" />
+          <span style="font-size: 8px;">COLD SCRATCH</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- แถบจัดการ Profile และ Dataset -->
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 15px;">
       <div>
-        <label for="player-select">PROFILE:</label>
+        <label for="player-select" style="font-size: 8px;">PROFILE:</label>
         <div class="nes-select is-inline" style="width: 140px;">
-          <select id="player-select">
+          <select id="player-select" style="font-size: 8px;">
             <option value="Player_1">Player 1</option>
             <option value="Player_2">Player 2</option>
           </select>
@@ -66,10 +367,10 @@
 
       <div style="display: flex; gap: 6px;">
         <button type="button" id="btn-export-json" class="nes-btn is-primary" style="font-size: 8px;">SAVE DATASET</button>
-        
+
         <div class="file-input-wrapper">
-          <button type="button" class="nes-btn is-warning" style="font-size: 8px;">LOAD DATASET</button>
-          <input type="file" id="file-import" accept=".json" />
+          <button type="button" class="nes-btn is-warning" style="font-size: 8px;">LOAD MULTI-DATASET</button>
+          <input type="file" id="file-import" accept=".json" multiple />
         </div>
 
         <button type="button" id="btn-reset" class="nes-btn is-error" style="font-size: 8px;">PURGE</button>
@@ -79,19 +380,19 @@
     <!-- HUD Dashboard -->
     <div class="nes-container is-rounded is-dark" style="margin-bottom: 15px;">
       <div style="display: flex; justify-content: space-between; font-size: 9px; margin-bottom: 6px;">
-        <span id="epoch-text" style="color: #ffd32a;">EPOCH: 1 (TOTAL PLAYED: 0)</span>
-        <span>PROGRESS: <span id="round-counter" style="color: #0be881;">0</span> / 100</span>
+        <span id="epoch-text" style="color: #d65a7a;">MODE: BOSS DUEL (FIRST TO 5)</span>
+        <span id="progress-text">TARGET: <span style="color: #0be881;">5 WINS</span></span>
       </div>
 
-      <p>CURRENT SCORE: YOU <span id="human-score">0</span> - <span id="ai-score">0</span> AI (DRAWS: <span id="draw-score">0</span>)</p>
-      <p>AI ACCURACY: <span id="accuracy-text" style="color: #0be881;">0%</span></p>
+      <p style="font-size: 11px;">CURRENT SCORE: YOU <span id="human-score">0</span> - <span id="ai-score">0</span> AI (DRAWS: <span id="draw-score">0</span>)</p>
+      <p style="font-size: 9px;">AI ACCURACY: <span id="accuracy-text" style="color: #0be881;">0%</span></p>
       <progress id="accuracy-bar" class="nes-progress is-success" value="0" max="100"></progress>
-      
+
       <div id="alert-box" class="flash-alert"></div>
       <div id="debug-info" class="badge">ACTIVE SUB-MODEL: NONE | LATENCY: 0ms</div>
     </div>
 
-    <!-- Buttons -->
+    <!-- ปุ่ม Action -->
     <div style="text-align: center;">
       <div class="btn-group">
         <button type="button" class="nes-btn is-primary btn-move" data-move="rock">✊ ROCK</button>
@@ -100,14 +401,14 @@
       </div>
     </div>
 
-    <!-- Live Turn-by-Turn Feed -->
+    <!-- ตารางบันทึก 10 ตาล่าสุด -->
     <div style="margin-top: 15px;">
-      <p style="font-size: 9px; margin-bottom: 5px; color: #a4b0be;">LIVE STREAM FEED (RECENT 10 TURNS):</p>
+      <p style="font-size: 9px; margin-bottom: 5px; color: #636e72;">LIVE STREAM FEED (RECENT 10 TURNS):</p>
       <div class="history-table-container nes-container is-dark">
         <table class="nes-table is-bordered is-dark is-centered" style="width: 100%;">
           <thead>
             <tr>
-              <th>EP-RND</th>
+              <th>RND</th>
               <th>HUMAN</th>
               <th>PREDICTED</th>
               <th>AI MOVE</th>
@@ -116,7 +417,9 @@
             </tr>
           </thead>
           <tbody id="history-table-body">
-            <tr><td colspan="6" style="color: #747d8c;">NO ROUNDS RECORDED</td></tr>
+            <tr>
+              <td colspan="6" style="color: #747d8c;">NO ROUNDS RECORDED</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -125,15 +428,29 @@
 
   <script>
     // =========================================================================
-    // 🧠 CONTINUOUS DATASET & EPOCH ENGINE
+    // 🧠 1. ENGINE (AGGRESSIVE ENSEMBLE + MULTI-DATASET MERGING)
     // =========================================================================
     class ContinuousEpochEngine {
       constructor(playerId = "Player_1") {
         this.moves = ["rock", "paper", "scissors"];
         this.counterMove = { rock: "paper", paper: "scissors", scissors: "rock" };
         this.playerId = playerId;
+        this.gameMode = "duel";
         this.epochSize = 100;
         this.lastTimestamp = Date.now();
+        this.modelState = "pretrained";
+
+        this.pretrainedTransitions2 = {
+          "rock->rock": { rock: 1, paper: 10, scissors: 2 },
+          "rock->paper": { rock: 2, paper: 1, scissors: 11 },
+          "rock->scissors": { rock: 10, paper: 2, scissors: 1 },
+          "paper->rock": { rock: 1, paper: 2, scissors: 10 },
+          "paper->paper": { rock: 9, paper: 1, scissors: 2 },
+          "paper->scissors": { rock: 2, paper: 10, scissors: 1 },
+          "scissors->rock": { rock: 2, paper: 10, scissors: 1 },
+          "scissors->paper": { rock: 10, paper: 1, scissors: 2 },
+          "scissors->scissors": { rock: 2, paper: 9, scissors: 1 }
+        };
 
         this.loadProfile(this.playerId);
       }
@@ -161,7 +478,6 @@
         return this.dataset.epochs[this.dataset.epochs.length - 1];
       }
 
-      // --- SUB-EXPERTS PREDICTORS ---
       predictOrder1() {
         const cur = this.getCurrentEpoch();
         if (cur.data.length < 1) return null;
@@ -171,16 +487,20 @@
 
       predictOrder2() {
         const cur = this.getCurrentEpoch();
-        if (cur.data.length < 2) return null;
+        if (cur.data.length < 2) {
+          return this.getBest(this.pretrainedTransitions2["rock->paper"]);
+        }
         const key = `${cur.data[cur.data.length - 2].human}->${cur.data[cur.data.length - 1].human}`;
-        return this.getBest(this.transitions2[key]);
+        return this.getBest(this.transitions2[key]) || this.getBest(this.pretrainedTransitions2[key]);
       }
 
       predictPsychology() {
         const cur = this.getCurrentEpoch();
         if (cur.data.length < 1) return null;
         const last = cur.data[cur.data.length - 1];
-        return last.outcome === "human_win" ? last.human : this.counterMove[last.ai];
+        if (last.outcome === "human_win") return last.human;
+        if (last.outcome === "ai_win") return last.ai;
+        return this.counterMove[last.human];
       }
 
       predictCounterMeta() {
@@ -222,8 +542,21 @@
         return best;
       }
 
-      getAIMove() {
+    getAIMove() {
         const latency = Date.now() - this.lastTimestamp;
+
+        // ถ้าอยู่ในโหมด COLD SCRATCH ให้ทำการสุ่มแท้จริง (Pure Stochastic Random 33.3%)
+        if (this.modelState === "scratch") {
+          const randomPred = this.moves[Math.floor(Math.random() * 3)];
+          const randomAIMove = this.moves[Math.floor(Math.random() * 3)];
+          return {
+            aiMove: randomAIMove,
+            predictedHumanMove: randomPred,
+            latency: latency
+          };
+        }
+
+        // ถ้าเป็น PRE-TRAINED ให้ใช้ระบบ Ensemble คำนวณตามปกติ
         const predictedHumanMove = this.predictHumanMove(latency);
         return {
           aiMove: this.counterMove[predictedHumanMove],
@@ -235,8 +568,7 @@
       recordRound(humanMove, aiMove, predictedHumanMove) {
         let currentEpoch = this.getCurrentEpoch();
 
-        // เมื่อครบ 100 ตา ให้ปิดยอด Epoch ปัจจุบัน แล้วต่อ Epoch ใหม่ทันที
-        if (currentEpoch.roundsPlayed >= this.epochSize) {
+        if (this.gameMode === "train" && currentEpoch.roundsPlayed >= this.epochSize) {
           currentEpoch.finalAccuracy = Math.round((currentEpoch.correctGuesses / currentEpoch.roundsPlayed) * 100);
           const nextEpoch = this.createNewEpoch(this.dataset.epochs.length + 1);
           this.dataset.epochs.push(nextEpoch);
@@ -258,7 +590,6 @@
           this.dataset.cumulativeCorrectGuesses++;
         }
 
-        // ปรับจูน Weight สด
         const preds = {
           markovOrder1: this.predictOrder1(),
           markovOrder2: this.predictOrder2(),
@@ -267,11 +598,10 @@
           latencyBias: this.predictLatency(latency)
         };
         for (const k in preds) {
-          if (preds[k] === humanMove) this.weights[k] += 0.15;
-          else this.weights[k] = Math.max(0.1, this.weights[k] - 0.04);
+          if (preds[k] === humanMove) this.weights[k] += 0.25;
+          else this.weights[k] = Math.max(0.2, this.weights[k] - 0.05);
         }
 
-        // เก็บ Transitions สะสมข้าม Epochs
         if (currentEpoch.data.length >= 1) {
           const l1 = currentEpoch.data[currentEpoch.data.length - 1].human;
           this.transitions1[l1] = this.transitions1[l1] || { rock: 0, paper: 0, scissors: 0 };
@@ -285,18 +615,17 @@
         const bucket = latency < 800 ? "fast" : "slow";
         this.latencyPatterns[bucket][humanMove] = (this.latencyPatterns[bucket][humanMove] || 0) + 1;
 
-        const currentAcc = Math.round((currentEpoch.correctGuesses / currentEpoch.roundsPlayed) * 100);
+        const currentAcc = this.getRollingAccuracy();
 
         const record = {
-          globalRound: this.dataset.cumulativeTotalRounds,
-          epochRound: currentEpoch.roundsPlayed,
+          round: currentEpoch.roundsPlayed,
           human: humanMove,
           predicted: predictedHumanMove,
           ai: aiMove,
           outcome: outcome,
           isPredicted: isPredicted,
           latency: latency,
-          epochAccuracy: currentAcc
+          accuracy: currentAcc
         };
 
         currentEpoch.data.push(record);
@@ -305,7 +634,7 @@
 
         return {
           record,
-          epochIndex: currentEpoch.epochId,
+          epochId: currentEpoch.epochId,
           roundsInEpoch: currentEpoch.roundsPlayed,
           humanWins: currentEpoch.humanWins,
           aiWins: currentEpoch.aiWins,
@@ -313,6 +642,17 @@
           accuracy: currentAcc,
           dominantExpert: this.getDominantExpert()
         };
+      }
+
+      getRollingAccuracy() {
+        const cur = this.getCurrentEpoch();
+        const totalRounds = cur.data.length;
+        if (totalRounds === 0) return 0;
+
+        const windowSize = Math.min(totalRounds, 30);
+        const slice = cur.data.slice(-windowSize);
+        const correct = slice.filter(r => r.isPredicted).length;
+        return Math.round((correct / windowSize) * 100);
       }
 
       getDominantExpert() {
@@ -355,11 +695,11 @@
           const parsed = JSON.parse(raw);
           this.dataset = parsed.dataset || this.initDatasetTemplate();
           this.transitions1 = parsed.transitions1 || {};
-          this.transitions2 = parsed.transitions2 || {};
+          this.transitions2 = parsed.transitions2 || JSON.parse(JSON.stringify(this.pretrainedTransitions2));
           this.latencyPatterns = parsed.latencyPatterns || { fast: {}, slow: {} };
           this.weights = parsed.weights || this.initWeights();
         } else {
-          this.resetMemory();
+          this.resetToPretrained();
         }
         this.lastTimestamp = Date.now();
       }
@@ -373,32 +713,83 @@
       }
 
       initWeights() {
-        return { markovOrder1: 1.0, markovOrder2: 1.5, psychology: 1.2, counterMeta: 0.8, latencyBias: 1.0 };
+        return { markovOrder1: 1.0, markovOrder2: 3.5, psychology: 3.0, counterMeta: 1.5, latencyBias: 1.8 };
       }
 
-      resetMemory() {
+      resetToPretrained() {
+        this.dataset = this.initDatasetTemplate();
+        this.transitions1 = {};
+        this.transitions2 = JSON.parse(JSON.stringify(this.pretrainedTransitions2));
+        this.latencyPatterns = { fast: {}, slow: {} };
+        this.weights = this.initWeights();
+        this.lastTimestamp = Date.now();
+        this.saveProfile();
+      }
+
+      resetToScratch() {
         this.dataset = this.initDatasetTemplate();
         this.transitions1 = {};
         this.transitions2 = {};
         this.latencyPatterns = { fast: {}, slow: {} };
-        this.weights = this.initWeights();
+        this.weights = { markovOrder1: 1.0, markovOrder2: 1.0, psychology: 1.0, counterMeta: 1.0, latencyBias: 1.0 };
         this.lastTimestamp = Date.now();
         localStorage.removeItem(`ai_arcade_dataset_${this.playerId}`);
       }
 
-      // โหลดชุดข้อมูลจากไฟล์ JSON ภายนอกมาเรียนรู้ต่อ
-      importDataset(jsonString) {
-        const parsed = JSON.parse(jsonString);
-        if (!parsed.dataset || !parsed.transitions1) throw new Error("Invalid Dataset Format");
-        this.dataset = parsed.dataset;
-        this.transitions1 = parsed.transitions1;
-        this.transitions2 = parsed.transitions2;
-        this.latencyPatterns = parsed.latencyPatterns;
-        this.weights = parsed.weights;
+      mergeMultipleDatasets(datasetsList) {
+        let mergedT1 = {};
+        let mergedT2 = {};
+        let mergedLatency = { fast: {}, slow: {} };
+        let mergedWeights = { markovOrder1: 0, markovOrder2: 0, psychology: 0, counterMeta: 0, latencyBias: 0 };
+
+        datasetsList.forEach((parsed) => {
+          const t1 = parsed.transitions1 || {};
+          for (const fromMove in t1) {
+            mergedT1[fromMove] = mergedT1[fromMove] || { rock: 0, paper: 0, scissors: 0 };
+            for (const toMove in t1[fromMove]) {
+              mergedT1[fromMove][toMove] += t1[fromMove][toMove];
+            }
+          }
+
+          const t2 = parsed.transitions2 || {};
+          for (const key in t2) {
+            mergedT2[key] = mergedT2[key] || { rock: 0, paper: 0, scissors: 0 };
+            for (const toMove in t2[key]) {
+              mergedT2[key][toMove] += t2[key][toMove];
+            }
+          }
+
+          const lat = parsed.latencyPatterns || { fast: {}, slow: {} };
+          ['fast', 'slow'].forEach(bucket => {
+            if (lat[bucket]) {
+              for (const m in lat[bucket]) {
+                mergedLatency[bucket][m] = (mergedLatency[bucket][m] || 0) + lat[bucket][m];
+              }
+            }
+          });
+
+          const w = parsed.weights || {};
+          for (const k in mergedWeights) {
+            mergedWeights[k] += (w[k] !== undefined ? w[k] : 1.0);
+          }
+        });
+
+        const count = datasetsList.length;
+        for (const k in mergedWeights) {
+          mergedWeights[k] = parseFloat((mergedWeights[k] / count).toFixed(2));
+        }
+
+        this.transitions1 = mergedT1;
+        this.transitions2 = mergedT2;
+        this.latencyPatterns = mergedLatency;
+        this.weights = mergedWeights;
+
+        // ล้างประวัติหน้าจอการเล่นปัจจุบันให้เริ่มที่ 0
+        this.dataset = this.initDatasetTemplate();
+        this.lastTimestamp = Date.now();
         this.saveProfile();
       }
 
-      // Export เป็น JSON ทั้งก้อนเพื่อเอาไปเก็บใน Folder โปรเจกต์
       exportDatasetJSON() {
         return JSON.stringify({
           dataset: this.dataset,
@@ -411,26 +802,34 @@
     }
 
     // =========================================================================
-    // 🎮 UI CONTROLLER
+    // 🎮 2. UI CONTROLLER
     // =========================================================================
     let engine = new ContinuousEpochEngine("Player_1");
 
     function refreshUI() {
       const cur = engine.getCurrentEpoch();
-      const acc = cur.roundsPlayed === 0 ? 0 : Math.round((cur.correctGuesses / cur.roundsPlayed) * 100);
+      const isDuel = engine.gameMode === "duel";
 
-      document.getElementById('epoch-text').innerText = `EPOCH: ${cur.epochId} (TOTAL PLAYED: ${engine.dataset.cumulativeTotalRounds})`;
-      document.getElementById('round-counter').innerText = cur.roundsPlayed;
       document.getElementById('human-score').innerText = cur.humanWins;
       document.getElementById('ai-score').innerText = cur.aiWins;
       document.getElementById('draw-score').innerText = cur.draws;
+
+      const acc = engine.getRollingAccuracy();
       document.getElementById('accuracy-text').innerText = `${acc}%`;
       document.getElementById('accuracy-bar').value = acc;
 
-      renderFeedTable(cur.data, cur.epochId);
+      if (isDuel) {
+        document.getElementById('epoch-text').innerText = `MODE: BOSS DUEL (FIRST TO 5)`;
+        document.getElementById('progress-text').innerHTML = `TARGET: <span style="color:#0be881;">5 WINS</span>`;
+      } else {
+        document.getElementById('epoch-text').innerText = `EPOCH: ${cur.epochId} (TRAIN MODE)`;
+        document.getElementById('progress-text').innerHTML = `PROGRESS: <span style="color:#0be881;">${cur.roundsPlayed}</span> / 100`;
+      }
+
+      renderFeedTable(cur.data);
     }
 
-    function renderFeedTable(data, epochId) {
+    function renderFeedTable(data) {
       const tbody = document.getElementById('history-table-body');
       if (data.length === 0) {
         tbody.innerHTML = `<tr><td colspan="6" style="color: #747d8c;">NO ROUNDS RECORDED</td></tr>`;
@@ -445,53 +844,86 @@
 
         return `
           <tr>
-            <td>E${epochId}-#${r.epochRound}</td>
+            <td>#${r.round}</td>
             <td>${r.human.toUpperCase()}</td>
             <td style="color: ${r.isPredicted ? '#0be881' : '#a4b0be'};">${r.predicted.toUpperCase()}</td>
             <td>${r.ai.toUpperCase()}</td>
             <td class="${tag}">${txt}</td>
-            <td>${r.epochAccuracy}%</td>
+            <td>${r.accuracy}%</td>
           </tr>
         `;
       }).join('');
     }
 
-    // ปุ่มกดค้อน-กรรไกร-กระดาษ
+    // Event Listeners สำหรับการกดท่า
     document.querySelectorAll('.btn-move').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const choice = e.target.getAttribute('data-move');
         const { aiMove, predictedHumanMove } = engine.getAIMove();
         const res = engine.recordRound(choice, aiMove, predictedHumanMove);
 
-        if (res.roundsInEpoch === 100) {
-          alert(`🏁 EPOCH #${res.epochIndex} COMPLETED!\nAI Accuracy in this Epoch: ${res.accuracy}%\nAdvancing to Epoch #${res.epochIndex + 1} with learned weights...`);
-        }
-
         refreshUI();
 
         const alertBox = document.getElementById('alert-box');
-        alertBox.innerText = res.record.isPredicted ? `[READ! PREDICTED: ${predictedHumanMove.toUpperCase()}]` : "";
+        alertBox.innerText = res.record.isPredicted ? `[READ! AI PREDICTED: ${predictedHumanMove.toUpperCase()}]` : "";
         document.getElementById('debug-info').innerText = `ACTIVE SUB-MODEL: ${res.dominantExpert.toUpperCase()} | LATENCY: ${res.record.latency}ms`;
+
+        if (engine.gameMode === "duel") {
+          if (res.aiWins >= 5) {
+            alert("💀 AI WINS THE DUEL! (5 Points Reached)\nAI successfully adapted and read your subconscious bias!");
+            engine.resetToPretrained();
+            refreshUI();
+          } else if (res.humanWins >= 5) {
+            alert("🏆 HUMAN WINS THE DUEL! Pattern disrupted!");
+            engine.resetToPretrained();
+            refreshUI();
+          }
+        } else if (engine.gameMode === "train" && res.roundsInEpoch >= 100) {
+          alert(`🏁 EPOCH COMPLETED (100 Rounds)!\nAccuracy: ${res.accuracy}%`);
+        }
       });
     });
 
-    // สลับโปรไฟล์
+    // Game Mode Toggle
+    document.querySelectorAll('input[name="game-mode"]').forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        engine.gameMode = e.target.value;
+        refreshUI();
+      });
+    });
+
+    // Model State Toggle
+    document.querySelectorAll('input[name="model-state"]').forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        engine.modelState = e.target.value;
+        if (e.target.value === "pretrained") {
+          engine.resetToPretrained();
+          alert("Switched to: PRE-TRAINED AI (Aggressive weights loaded)");
+        } else {
+          engine.resetToScratch();
+          alert("Switched to: COLD SCRATCH AI (Zero memory, completely random)");
+        }
+        refreshUI();
+      });
+    });
+
+    // Profile Switch
     document.getElementById('player-select').addEventListener('change', (e) => {
       engine.setPlayer(e.target.value);
       refreshUI();
       document.getElementById('alert-box').innerText = `LOADED: ${e.target.value}`;
     });
 
-    // ปุ่ม Reset
+    // Purge Memory
     document.getElementById('btn-reset').addEventListener('click', () => {
-      if (confirm("Purge memory and all dataset epochs?")) {
-        engine.resetMemory();
+      if (confirm("Purge memory and reset this profile?")) {
+        engine.resetToPretrained();
         refreshUI();
-        document.getElementById('alert-box').innerText = "DATASET PURGED!";
+        document.getElementById('alert-box').innerText = "MEMORY PURGED!";
       }
     });
 
-    // บันทึก Dataset เป็น JSON เข้าโฟลเดอร์เครื่อง
+    // Export JSON
     document.getElementById('btn-export-json').addEventListener('click', () => {
       const dataStr = engine.exportDatasetJSON();
       const blob = new Blob([dataStr], { type: "application/json" });
@@ -502,24 +934,64 @@
       a.click();
     });
 
-    // โหลด Dataset จากโฟลเดอร์เครื่องเข้ามาเทรนต่อ
-    document.getElementById('file-import').addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        try {
-          engine.importDataset(event.target.result);
-          refreshUI();
-          alert("Dataset successfully loaded! AI resumed training from file.");
-        } catch (err) {
-          alert("Error loading dataset file!");
+    // Multi-Dataset Loader
+    document.getElementById('file-import').addEventListener('change', async (e) => {
+      const files = Array.from(e.target.files);
+      if (!files || files.length === 0) return;
+
+      try {
+        const readPromises = files.map(file => {
+          return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+              try {
+                resolve(JSON.parse(event.target.result));
+              } catch (err) {
+                reject(err);
+              }
+            };
+            reader.onerror = reject;
+            reader.readAsText(file);
+          });
+        });
+
+        const loadedDatasets = await Promise.all(readPromises);
+        engine.mergeMultipleDatasets(loadedDatasets);
+        refreshUI();
+
+        alert(`🧠 MULTI-TRAINING COMPLETE!\nSuccessfully merged ${files.length} datasets into the AI Global Brain.`);
+        document.getElementById('alert-box').innerText = `MERGED ${files.length} DATASETS`;
+      } catch (err) {
+        console.error(err);
+        alert("Error merging datasets! Please ensure all files are valid JSON.");
+      }
+    });
+
+    // Start Screen & Loading Bar
+    document.querySelector('.start-button').addEventListener('click', function () {
+      document.querySelector('.start-screen').style.display = 'none';
+      document.querySelector('.loading-screen').style.display = 'flex';
+
+      let percent = 0;
+      const percentText = document.querySelector('.loading-percent');
+
+      const loadingInterval = setInterval(function () {
+        percent++;
+        percentText.textContent = percent + '%';
+        document.querySelector('.loading-bar-fill').style.width = percent + '%';
+
+        if (percent >= 100) {
+          clearInterval(loadingInterval);
         }
-      };
-      reader.readAsText(file);
+      }, 20);
+
+      setTimeout(function () {
+        document.querySelector('.loading-screen').style.display = 'none';
+      }, 2000);
     });
 
     refreshUI();
   </script>
 </body>
+
 </html>
